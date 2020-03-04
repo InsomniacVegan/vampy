@@ -46,7 +46,6 @@ class ParametericSweeper:
 
     def generate_output_files(self, file_class, naming_convention='default'):
         import os
-        import numpy as np
 
         # Step over objects again to find sweep variables
         for obj in self.ensemble:
