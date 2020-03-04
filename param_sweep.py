@@ -25,13 +25,14 @@
 #                                                                #
 # ============================================================== #
 
-from typing import Generator
+from typing import Iterable
 
 class ParametericSweeper:
     """Abstract parametric sweeper for use with VAMPIRE input files"""
     def __init__(self):
         self.ensemble = {}
         self.hierarchies = {}
+        self.sorted_hierarchy_keys = None
 
     def add_obj(self, vmpr_obj):
         self.ensemble[vmpr_obj.id] = vmpr_obj
@@ -42,27 +43,36 @@ class ParametericSweeper:
                   .format(hierarchy, self.hierarchies[hierarchy][0], steps))
         self.hierarchies[hierarchy] = (steps, [])
 
-    def add_param_sweep(self, hierarchy: int, mat_id: int, param: str, sw_func: Generator):
-
+    def add_param_sweep(self, hierarchy: int, mat_id: int, param: str, func_arr):
         # Form sweeping tuple
-        sw_tup = (mat_id, param, sw_func)
+        sw_tup = (mat_id, param, func_arr)
 
-        # Check for hierarchy existence
+        # Check for existence of hierarchy and material
         if hierarchy not in self.hierarchies:
             print('[WARNING] Hierarchy {} does not exist in hierarchy stack - parameter sweep not added'
                   .format(hierarchy))
             return
+        if mat_id not in self.ensemble:
+            print('[WARNING] Material ID: {} does not exist in system ensemble - parameter sweep not added'
+                  .format(mat_id))
+            return
+        # If checks pass then create new hierarchy
         self.hierarchies[hierarchy][1].append(sw_tup)
 
     def sw_hierarchies(self, h_id: int):
-        # Step over sweep steps
-        for i in range(self.hierarchies[h_id][0]):
-            # Step over parameters to sweep
-            for j in range(len(self.hierarchies[h_id][1])):
-                self.ensemble[param_sweep[0]] = self.hierarchies[h_id][1][j][2]
-            # Recursively perform as needed
-            if h_id != min(self.hierarchies.keys()):
-                self.sw_hierarchies(h_id-1)
+        if not self.sorted_hierarchy_keys: self.sorted_hierarchy_keys=sorted(self.hierarchies)
+        try:
+            # Step over sweep steps
+            for i in range(self.hierarchies[h_id][0]):
+                # Step over parameters to sweep
+                for sweep_param in self.hierarchies[h_id][1]:
+                    if sweep_param[2] : self.ensemble[sweep_param[0]] = sweep_param[2][i]
+
+                # Recursively perform as needed
+                if h_id != min(self.hierarchies.keys()):
+                    self.sw_hierarchies(self.sorted_hierarchy_keys
+                                        [self.sorted_hierarchy_keys.index(h_id)-1])
+                # Generate output file here
 
 
 
