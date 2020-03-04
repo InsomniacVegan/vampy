@@ -25,7 +25,7 @@
 # ============================================================== #
 
 
-from vampy.infrastructure.base import VampireObject
+from base import VampireObject
 
 
 class Material(VampireObject):
@@ -62,11 +62,11 @@ class Material(VampireObject):
 
         # Check for no tags
         if 'material-name' not in self.params:
-            print('[Warning] No material name present in file: ' + template_location)
+            print('[Warning] No material name present in file: {}'.format(template_location))
             print('Defaulting to material name: Co')
             self.params['material-name'] = 'Co'
         if 'material-element' not in self.params:
-            print('[Warning] No material element present in file: ' + template_location)
+            print('[Warning] No material element present in file: {}'.format(template_location))
             print('Defaulting to material element: Co')
             self.params['material-element'] = 'Co'
 

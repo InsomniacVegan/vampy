@@ -52,7 +52,8 @@ class MaterialFile:
         #self.write(vampy_header)
 
         if verbose:
-            self.write('Calling function: files.MaterialFile.write_material_file(%s,%s)' % (system, output_location))
+            self.write('Calling function: files.MaterialFile.write_material_file({},{})'
+                       .format(system, output_location))
         self.write('# Creation date: %s' % str(datetime.datetime.now()))
         self.write('\n')
 
@@ -69,13 +70,15 @@ class MaterialFile:
         # Number of infrastructure
         self.write('# Number of infrastructure')
         self.write('')
-        self.write('material:num-infrastructure=%d' % len(system))
+        self.write('material:num-infrastructure={}'.format(len(system)))
         self.write('\n')
 
         # Add each material
+        # %_REFACTOR_%
         for mat in system:
             self.write('# ============================================================== #')
-            self.write('# Material: %d: %s' % ((system.index(mat)+1), mat.params['material-name']))
+            self.write('# Material: {}: {}'.
+                       format(system.index(mat)+1, mat.params['material-name']))
             self.write('# ============================================================== #')
             for param_name in mat.params:
                 if mat.params[param_name] == '':
@@ -83,14 +86,15 @@ class MaterialFile:
                     # self.write('material[%d]:%s%s' % (system.index(mat)+1, param_name, mat.params[param_name]))
                 else:
                     delim = '='
-                self.write('material[%d]:%s%s%s' % (system.index(mat)+1, param_name, delim, mat.params[param_name]))
+                self.write('material[{}]:{}{}{}'.
+                           format(system.index(mat)+1, param_name, delim, mat.params[param_name]))
             self.write('# ============================================================== #')
             self.write('\n')
 
         # Generate output string
         self.generate_output()
 
-        #  Perform write
+        # Perform write
         output_file = open(output_location, mode='w')
         output_file.write(self.full_output)
         output_file.close()
