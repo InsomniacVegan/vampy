@@ -55,10 +55,12 @@ class ParametericSweeper:
         self.hierarchies[hierarchy][1].append(sw_tup)
 
     def sw_hierarchies(self, h_id: int):
+        # Step over sweep steps
         for i in range(self.hierarchies[h_id][0]):
-            for param_sweep in self.hierarchies[h_id][1]:
-                self.ensemble[param_sweep[0]] = param_sweep
-
+            # Step over parameters to sweep
+            for j in range(len(self.hierarchies[h_id][1])):
+                self.ensemble[param_sweep[0]] = self.hierarchies[h_id][1][j][2]
+            # Recursively perform as needed
             if h_id != min(self.hierarchies.keys()):
                 self.sw_hierarchies(h_id-1)
 
