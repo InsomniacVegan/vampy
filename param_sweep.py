@@ -26,7 +26,6 @@
 # ============================================================== #
 
 
-
 class ParametericSweeper:
     """Abstract parametric sweeper for use with VAMPIRE input files"""
     def __init__(self):
