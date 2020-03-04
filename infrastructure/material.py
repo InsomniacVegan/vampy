@@ -30,6 +30,15 @@ from infrastructure.base import VampireObject
 
 class Material(VampireObject):
     """Vampire material class for use with generation of material files"""
+
+    # Assign a unique ID to each material on __init__
+    id_track = 1
+
+    def __init__(self):
+        self.id = Material.id_track
+        Material.id_track += 1
+        super().__init__()
+
     def load_template(self, template_location):
 
         # Read whole template file

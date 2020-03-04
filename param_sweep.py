@@ -30,6 +30,7 @@ class ParametericSweeper:
     """Abstract parametric sweeper for use with VAMPIRE input files"""
     def __init__(self):
         self.ensemble = []
+        self.hierarchies = {}
 
     def add_obj(self, vmpr_obj, sw_dict=None):
         if sw_dict:
@@ -54,6 +55,7 @@ class ParametericSweeper:
                 for param_val in obj[-1]['function'](*obj[-1]['input']):
                     obj[0].set_param(obj[-1]['param'], param_val)
                     if naming_convention == 'default':
+                        print(obj[0].id)
                         param_val_str = str(param_val)
                         os.system('mkdir ' + param_val_str)
                         file_class.write_file(system=[item[0] for item in self.ensemble], output_location=(param_val_str+'/CoFeB_MTJ.mat'))
