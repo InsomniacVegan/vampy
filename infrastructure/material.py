@@ -48,6 +48,7 @@ class Material(VampireObject):
         lines = list(template_file)
         for line in lines:
 
+            # Skip comments and blank lines
             if line[0] == '#' or line == '':
                 continue
 
