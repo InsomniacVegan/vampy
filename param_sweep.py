@@ -72,6 +72,7 @@ class ParametericSweeper:
             for i in range(self.hierarchies[h_id][0]):
                 # Step over parameters to sweep
                 for sweep_param in self.hierarchies[h_id][1]:
+                    print(sweep_param)
                     if sweep_param[2][i]:
                         self.ensemble[sweep_param[0]].params[sweep_param[1]] = sweep_param[2][i]
 
@@ -86,5 +87,6 @@ class ParametericSweeper:
                     self.file_class.write_file(system=self.ensemble.values(),
                                                output_location=('{}/CoFeB_MTJ.mat').format(self.file_num))
                     self.file_num += 1
+
         except IndexError:
             print('[WARNING] IndexError: likely due to number of steps in parameter sweep > len(array)')
