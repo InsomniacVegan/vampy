@@ -48,6 +48,9 @@ class MaterialFile:
         self.output_store = []
 
         print(system)
+        for i in system:
+            print(type(i))
+            print(i.id)
 
         # Standard VAMPY header output
         #vampy_header = open('../docs/about').read()
