@@ -83,29 +83,6 @@ class ParametericSweeper:
                 if self.file_class:
                     os.system('mkdir {}'.format(self.file_num))
                     self.file_class.write_file(system=self.ensemble.values(),
-                                              output_location=('{}/CoFeB_MTJ.mat').format(self.file_num))
-
-
-
+                                               output_location=('{}/CoFeB_MTJ.mat').format(self.file_num))
         except IndexError:
             print('[WARNING] IndexError: likely due to number of steps in parameter sweep > len(array)')
-
-
-
-
-
-    def generate_output_files(self, file_class, naming_convention='default'):
-        # REFACTOR
-
-        # Step over objects again to find sweep variables
-        for obj in self.ensemble:
-            # Test for sweeping
-            if len(obj) > 1:
-                for param_val in obj[-1]['function'](*obj[-1]['input']):
-                    obj[0].set_param(obj[-1]['param'], param_val)
-
-                        if naming_convention == 'default':
-                        param_val_str = str(param_val)
-                        os.system('mkdir ' + param_val_str)
-                        file_class.write_file(system=[item[0] for item in self.ensemble],
-                                              output_location=(param_val_str+'/CoFeB_MTJ.mat'))
