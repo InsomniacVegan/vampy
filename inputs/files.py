@@ -47,11 +47,6 @@ class MaterialFile:
     def write_file(self, system, output_location, header_str=None, verbose=False):
         self.output_store = []
 
-        print(system)
-        for i in system:
-            print(type(i))
-            print(i.id)
-
         # Standard VAMPY header output
         #vampy_header = open('../docs/about').read()
         #self.write(vampy_header)
