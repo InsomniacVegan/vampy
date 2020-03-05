@@ -75,7 +75,7 @@ class MaterialFile:
 
         # Add each material
         # %_REFACTOR_%
-        for mat in system():
+        for mat in system:
             self.write('# ============================================================== #')
             self.write('# Material: {}: {}'.
                        format(mat.id, mat.params['material-name']))
