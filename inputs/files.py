@@ -68,17 +68,17 @@ class MaterialFile:
                 print('No header defined')
 
         # Number of infrastructure
-        self.write('# Number of infrastructure')
+        self.write('# Number of materials')
         self.write('')
-        self.write('material:num-infrastructure={}'.format(len(system)))
+        self.write('material:num-materials={}'.format(len(system)))
         self.write('\n')
 
         # Add each material
         # %_REFACTOR_%
-        for mat in system:
+        for mat in system.values():
             self.write('# ============================================================== #')
             self.write('# Material: {}: {}'.
-                       format(system.index(mat)+1, mat.params['material-name']))
+                       format(mat.id, mat.params['material-name']))
             self.write('# ============================================================== #')
             for param_name in mat.params:
                 if mat.params[param_name] == '':
