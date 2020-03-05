@@ -52,7 +52,7 @@ class MaterialFile:
         #self.write(vampy_header)
 
         if verbose:
-            self.write('Calling function: files.MaterialFile.write_material_file({},{})'
+            self.write('Calling function: inputs.files.MaterialFile.write_material_file({},{})'
                        .format(system, output_location))
         self.write('# Creation date: %s' % str(datetime.datetime.now()))
         self.write('\n')
@@ -87,7 +87,7 @@ class MaterialFile:
                 else:
                     delim = '='
                 self.write('material[{}]:{}{}{}'.
-                           format(system.index(mat)+1, param_name, delim, mat.params[param_name]))
+                           format(mat.id, param_name, delim, mat.params[param_name]))
             self.write('# ============================================================== #')
             self.write('\n')
 
