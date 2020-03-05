@@ -82,7 +82,7 @@ class ParametericSweeper:
                 # Generate output file here
                 if self.file_class:
                     os.system('mkdir {}'.format(self.file_num))
-                    self.file_class.write_file(system=[vmpr_obj[0] for vmpr_obj in self.ensemble],
+                    self.file_class.write_file(system=self.ensemble.values(),
                                               output_location=('{}/CoFeB_MTJ.mat').format(self.file_num))
 
 
