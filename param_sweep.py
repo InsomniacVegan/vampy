@@ -25,7 +25,8 @@
 #                                                                #
 # ============================================================== #
 
-from typing import Iterable
+
+import os
 
 class ParametericSweeper:
     """Abstract parametric sweeper for use with VAMPIRE input files"""
@@ -33,6 +34,11 @@ class ParametericSweeper:
         self.ensemble = {}
         self.hierarchies = {}
         self.sorted_hierarchy_keys = None
+        self.file_class = None
+        self.file_num = 0 # For outputting files - refactor to naming convention
+
+    def set_output_file(self, file_class):
+        self.file_class = file_class
 
     def add_obj(self, vmpr_obj):
         self.ensemble[vmpr_obj.id] = vmpr_obj
@@ -72,15 +78,23 @@ class ParametericSweeper:
                 if h_id != min(self.hierarchies.keys()):
                     self.sw_hierarchies(self.sorted_hierarchy_keys
                                         [self.sorted_hierarchy_keys.index(h_id)-1])
+
                 # Generate output file here
+                if self.file_class:
+                    os.system('mkdir {}'.format(self.file_num))
+                    self.file_class.write_file(system=[vmpr_obj[0] for vmpr_obj in self.ensemble],
+                                              output_location=('{}/CoFeB_MTJ.mat').format(self.file_num))
+
+
+
+        except IndexError:
+            print('[WARNING] IndexError: likely due to number of steps in parameter sweep > len(array)')
 
 
 
 
 
     def generate_output_files(self, file_class, naming_convention='default'):
-        import os
-
         # REFACTOR
 
         # Step over objects again to find sweep variables
