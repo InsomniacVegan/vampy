@@ -85,5 +85,6 @@ class ParametericSweeper:
                     os.system('mkdir {}'.format(self.file_num))
                     self.file_class.write_file(system=self.ensemble.values(),
                                                output_location=('{}/CoFeB_MTJ.mat').format(self.file_num))
+                    self.file_num += 1
         except IndexError:
             print('[WARNING] IndexError: likely due to number of steps in parameter sweep > len(array)')
