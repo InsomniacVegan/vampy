@@ -72,7 +72,8 @@ class ParametericSweeper:
             for i in range(self.hierarchies[h_id][0]):
                 # Step over parameters to sweep
                 for sweep_param in self.hierarchies[h_id][1]:
-                    if sweep_param[2] : self.ensemble[sweep_param[0]] = sweep_param[2][i]
+                    if sweep_param[2][i]:
+                        self.ensemble[sweep_param[0]] = sweep_param[2][i]
 
                 # Recursively perform as needed
                 if h_id != min(self.hierarchies.keys()):
