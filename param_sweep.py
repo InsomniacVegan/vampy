@@ -83,9 +83,6 @@ class ParametericSweeper:
                 # Generate output file here
                 if self.file_class:
                     os.system('mkdir {}'.format(self.file_num))
-                    print(self.ensemble.values())
-                    for i in self.ensemble.values():
-                        print(i.id)
                     self.file_class.write_file(system=self.ensemble.values(),
                                                output_location=('{}/CoFeB_MTJ.mat').format(self.file_num))
         except IndexError:
