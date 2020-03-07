@@ -29,14 +29,14 @@
 import os
 
 
-class ParametericSweeper:
+class ParametricSweeper:
     """Abstract parametric sweeper for use with VAMPIRE input files"""
     def __init__(self):
         self.ensemble = {}
         self.hierarchies = {}
         self.sorted_hierarchy_keys = None
         self.file_class = None
-        self.file_num = 0 # For outputting files - refactor to naming convention
+        self.file_num = 0  # For outputting files - refactor to naming convention
 
     def set_output_file(self, file_class):
         self.file_class = file_class
