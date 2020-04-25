@@ -14,58 +14,30 @@
 #  magnetization dynamics simulations.                           #
 #                                                                #
 # -------------------------------------------------------------- #
-#  File    : inputs/files.py                                     #
-#  About   : Class for the generation of VAMPIRE material files  #
-#            (.mat)                                              #
+#  File    : file_types/material_file.py                         #
+#  About   : Class for the generation of VAMPIRE material input  #
+#            files (.mat)                                        #
 #                                                                #
 #  Author  : Luke Elliott <luke.elliott@york.ac.uk>              #
-#  Date    : 21/02/2020                                          #
+#  Date    : 25/04/2020                                          #
 #                                                                #
 #  License :                                                     #
 #                                                                #
 # ============================================================== #
 
 
-# Datetime is used to provide the date in any material file generated
-import datetime
+from file_base import File
 
-
-class MaterialFile:
-    ver = 0.01 # Refactor for general VAMPY version
-
+class MaterialFile(File):
     def __init__(self):
-        # Strings
-        self.output_store = []
-        self.full_output = ''
+        super().__init__()
 
-    def write(self, line):
-        self.output_store.append(line)
-
-    def generate_output(self):
-        self.full_output = '\n'.join(self.output_store)
-
-    def write_file(self, system, output_location, header_str=None, verbose=False):
-        self.output_store = []
-
-        # Standard VAMPY header output
-        #vampy_header = open('../docs/about').read()
-        #self.write(vampy_header)
+    def generate_output(self, system, verbose=False):
+        super().generate_output()
 
         if verbose:
-            self.write('Calling function: inputs.files.MaterialFile.write_material_file({},{})'
-                       .format(system, output_location))
-        self.write('# Creation date: %s' % str(datetime.datetime.now()))
-        self.write('\n')
-
-        # User-defined header
-        if header_str:
-            try:
-                assert type(header_str) == str
-                self.write(header_str)
-                self.write('\n')
-            except AssertionError:
-                print('[Warning] User header is not type(str)')
-                print('No header defined')
+            print('Calling function: file_types.material_file.MaterialFile.generate_output({})'
+                       .format(system))
 
         # Number of infrastructure
         self.write('# Number of materials')
@@ -90,11 +62,3 @@ class MaterialFile:
                            format(mat.id, param_name, delim, mat.params[param_name]))
             self.write('# ============================================================== #')
             self.write('\n')
-
-        # Generate output string
-        self.generate_output()
-
-        # Perform write
-        output_file = open(output_location, mode='w')
-        output_file.write(self.full_output)
-        output_file.close()

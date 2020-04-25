@@ -25,7 +25,7 @@
 # ============================================================== #
 
 
-from vampy.infrastructure.base import VampireObject
+from base import VampireObject
 
 
 class Material(VampireObject):

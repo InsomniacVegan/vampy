@@ -89,8 +89,8 @@ class ParametricSweeper:
                 # Generate output file here
                 if self.file_class:
                     os.system('mkdir {}'.format(self.file_num))
-                    self.file_class.write_file(system=self.ensemble.values(),
-                                               output_location=('{}/CoFeB_MTJ.mat').format(self.file_num))
+                    self.file_class.generate_output(system=self.ensemble.values())
+                    self.file_class.write_file(output_location=('{}/CoFeB_MTJ.mat').format(self.file_num))
                     self.file_num += 1
 
         except IndexError:
