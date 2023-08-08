@@ -1,4 +1,4 @@
-from cls import vampire as vo
+from vampire import vampire as vo
 import utils.json as vjson
 import json
 
@@ -15,4 +15,5 @@ test_input = vo.VInput(label="test-input", blocks=[test_block])
 
 test_material = vo.VMaterialBlock(1, [test_data])
 test_material_block = vo.VMaterial([test_material])
-# print(json.dumps(test_material_block, cls=vjson.VampireEncoder))
+print(test_material_block)
+print(json.dumps(test_material_block, cls=vjson.VampireEncoder))

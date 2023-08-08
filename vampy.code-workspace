@@ -1,0 +1,21 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../vampire"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"functional": "cpp",
+			"memory": "cpp",
+			"sstream": "cpp"
+		},
+		"[python]": {
+			"editor.defaultFormatter": "ms-python.black-formatter"
+		},
+		"python.formatting.provider": "none"
+	}
+}

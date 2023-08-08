@@ -1,4 +1,4 @@
-from cls import vampire as vo
+from vampire import vampire as vo
 from json import JSONEncoder
 
 

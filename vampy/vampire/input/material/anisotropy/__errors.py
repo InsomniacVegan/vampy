@@ -1,0 +1,2 @@
+class UniaxialAnisotropyOverloadedError(UserWarning):
+    pass
