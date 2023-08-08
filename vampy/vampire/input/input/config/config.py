@@ -35,10 +35,9 @@ class Config(BaseModel):
 
     @field_validator("macro_cell_size_x", "macro_cell_size_y", "macro_cell_size_z")
     @classmethod
-    def check_macro_dims(
-        cls, dim: float, info: FieldValidationInfo
-    ) -> float:
-        if info.date["macro_cell_size"] is None and macr
+    def check_macro_dims(cls, dim: float, info: FieldValidationInfo) -> float:
+        if info.date["macro_cell_size"] is None and dim is None:
+            raise MacroCellDimensionNotSpecified("")
         cell_dimensions = {
             "x": info.data["macro_cell_size_x"],
             "y": info.data["macro_cell_size_y"],
