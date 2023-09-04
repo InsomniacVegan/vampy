@@ -1,57 +1,43 @@
-from enum import Enum
-from typing import Sequence
 from pydantic import BaseModel, FieldValidationInfo, field_validator
-from pydantic.types import confloat
-from .__errors import MacroCellSizeOverloaded
-
-
-class AtomOutputMethod(str, Enum):
-    continuous = ("continuous",)
-    end = "end"
+from pydantic.types import confloat, conint
+from .__types import AtomOutputMethod, AtomOutputFormat, AtomOutputMode
 
 
 class ConfigAtoms(BaseModel):
     atoms: AtomOutputMethod
-    atoms_output_rate: int = 1
+    atoms_output_rate: conint(ge=0, le=1e6) = 1
+    output_format: AtomOutputFormat
+    output_mode: AtomOutputMode
+    output_nodes: conint(ge=1, le=1e6)
+
+    # Atom min/max
+    atoms_minimum_x = confloat(ge=0.0, le=1.0)
+    atoms_maximum_x = confloat(ge=0.0, le=1.0)
+    atoms_minimum_y = confloat(ge=0.0, le=1.0)
+    atoms_maximum_y = confloat(ge=0.0, le=1.0)
+    atoms_minimum_z = confloat(ge=0.0, le=1.0)
+    atoms_maximum_z = confloat(ge=0.0, le=1.0)
+
+
+class ConfigMacroCells(BaseModel):
+    macro_cells: AtomOutputMode
+    macro_cells_output_rate: conint(ge=0, le=1e6) = 1
+
+
+class ConfigSurfaceAtoms(BaseModel):
+    identify_surface_atoms: bool = False
+
+
+class ConfigField(BaseModel):
+    field_range_descending_minimum: confloat(ge=-1e4, le=1e4)
+    field_range_descending_maximum: confloat(ge=-1e4, le=1e4)
+
+    field_range_ascending_minimum: confloat(ge=-1e4, le=1e4)
+    field_range_ascending_maximum: confloat(ge=-1e4, le=1e4)
 
 
 class Config(BaseModel):
-    # Specify
-    # macro_cell_size: confloat(ge=0, le=1e7) | Sequence[confloat(ge=0, le=1e7)]
-
-    macro_cell_size_x: confloat(ge=0, le=1e7) | None = None
-    macro_cell_size_y: confloat(ge=0, le=1e7) | None = None
-    macro_cell_size_z: confloat(ge=0, le=1e7) | None = None
-    macro_cell_size: confloat(ge=0, le=1e7) | None = None
-
-    @field_validator("macro_cell_size")
-    @classmethod
-    def limit_cell_or_dimensions(
-        cls, macro_cell_size: float, info: FieldValidationInfo
-    ) -> float:
-        if macro_cell_size and info.data["macro_cell_size_x"]:
-            raise MacroCellSizeOverloaded
-        return macro_cell_size
-
-    @field_validator("macro_cell_size_x", "macro_cell_size_y", "macro_cell_size_z")
-    @classmethod
-    def check_macro_dims(cls, dim: float, info: FieldValidationInfo) -> float:
-        if info.date["macro_cell_size"] is None and dim is None:
-            raise MacroCellDimensionNotSpecified("")
-        cell_dimensions = {
-            "x": info.data["macro_cell_size_x"],
-            "y": info.data["macro_cell_size_y"],
-            "z": info.data["macro_cell_szie_z"],
-        }
-
-        empty_dims = {dim for dim, size in cell_dimensions.items() if size is None}
-
-        print(len(empty_dims))
-
-        # if macro_cell_size is None and None in (
-        #     info.data["macro_cell_size_x"],
-        #     info.data["macro_cell_size_y"],
-        #     info.data["macro_cell_szie_z"]
-        # ):
-
-        # raise MacroCellSizeDimensionNotSpecified()
+    atoms: ConfigAtoms | None = None
+    macro_cells: ConfigMacroCells | None = None
+    surface_atoms: ConfigSurfaceAtoms | None = None
+    field: ConfigField | None = None
